@@ -16,7 +16,7 @@ interface ProjectCardProps {
   industry: string
   field: string
   likes: number
-  comments: number
+  comments?: number
   isLiked?: boolean
   collaborators?: number
   showCollaborators?: boolean
