@@ -23,7 +23,7 @@ type ProjectWithDetails = Project & {
   user: {
     id: string;
     email: string;
-    username?: string;
+    full_name?: string;
     avatar_url?: string;
   };
   comments: {
@@ -39,6 +39,17 @@ type ProjectWithDetails = Project & {
   }[];
 }
 
+type ProjectComment = {
+  id: string;
+  text: string;
+  created_at: string;
+  user: {
+    id: string;
+    email: string;
+    full_name?: string;
+    avatar_url?: string;
+  };
+}
 
 export default function ProjectDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter()
@@ -161,16 +172,16 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         id,
         text,
         created_at,
-        user:profiles!project_comments_user_id_fkey(id, full_name, avatar_url)
+        user:profiles!project_comments_user_id_fkey(id, email, full_name, avatar_url)
       `)
-      .single()
+      .single() as { data: ProjectComment | null, error: any }
 
     if (error) {
       console.error('Error posting comment:', error)
     } else if (newComment) {
       setProject(prev => prev ? {
         ...prev,
-        comments: [newComment, ...prev.comments]
+        comments: [newComment as ProjectComment , ...prev.comments]
       } : null)
       setComment("")
     }
@@ -203,7 +214,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
 
     setProject(prev => prev ? {
       ...prev,
-      colabs: prev.isCollaborator ? prev.collaborators : prev.collaborators + 1,
+      collaborators: prev.isCollaborator ? prev.collaborators : prev.collaborators + 1,
     } : null)    
   }
 

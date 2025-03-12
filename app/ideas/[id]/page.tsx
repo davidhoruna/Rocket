@@ -38,6 +38,18 @@ type IdeaWithDetails = Idea & {
   }[];
 }
 
+type ProjectComment = {
+  id: string;
+  text: string;
+  created_at: string;
+  user: {
+    id: string;
+    email: string;
+    full_name?: string;
+    avatar_url?: string;
+  };
+}
+
 export default function IdeaDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const [idea, setIdea] = useState<IdeaWithDetails | null>(null)
@@ -121,11 +133,12 @@ export default function IdeaDetailPage({ params }: { params: { id: string } }) {
       return
     }
 
-     (prev => prev ? {
+    (prev: { lightbulbs: number; isLightbulbed: boolean } | null) => prev ? {
       ...prev,
       lightbulbs: prev.isLightbulbed ? prev.lightbulbs - 1 : prev.lightbulbs + 1,
       isLightbulbed: !prev.isLightbulbed
-    } : null)
+    } : null
+    
   }
   const handleColab = async () => {
     if (!idea) return
@@ -183,7 +196,7 @@ export default function IdeaDetailPage({ params }: { params: { id: string } }) {
         user:profiles!idea_comments_user_id_fkey(id, full_name, avatar_url)
 
       `)
-      .single()
+      .single() as { data: ProjectComment | null, error: any }
 
     if (error) {
       console.error('Error posting comment:', error)
