@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button"
 interface FilterState {
   industries: string[]
   fields: string[]
-  difficulty: number
-  privacy: string | null
+  
 }
 
 interface ProjectSidebarProps {
@@ -53,12 +52,6 @@ export function HomeSidebar({ filters, setFilters }: ProjectSidebarProps) {
     }
   }
 
-  const setDifficulty = (value: number) => {
-    setFilters({
-      ...filters,
-      difficulty: filters.difficulty === value ? 0 : value,
-    })
-  }
 
   return (
     <div
@@ -83,7 +76,7 @@ export function HomeSidebar({ filters, setFilters }: ProjectSidebarProps) {
               </span>
               <button
                 className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-                onClick={() => setFilters({ industries: [], fields: [], difficulty: 0, privacy: null })}
+                onClick={() => setFilters({ industries: [], fields: []})}
               >
                 Reset
               </button>
