@@ -73,7 +73,7 @@ function SearchResults({ query }: { query: string }) {
       if (projectsResult.error) {
         console.error("Error fetching projects:", projectsResult.error)
       } else {
-        setProjects(projectsResult.data.map((project) => ({
+        setProjects(projectsResult.data.map((project: any) => ({
           ...project,
           likes: project.project_likes?.length || 0,
           isLiked: project.project_likes?.some((like: { user_id: string }) => like.user_id === session?.user?.id) || false
