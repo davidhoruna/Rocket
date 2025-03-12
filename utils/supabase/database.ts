@@ -36,7 +36,9 @@ export async function getProjects(userId?: string) {
 }
 
 export async function getIdeas(userId?: string) {
-  const supabase = createClient()
+
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
   
   let query = supabase
     .from('ideas')
@@ -66,8 +68,9 @@ export async function getIdeas(userId?: string) {
 }
 
 export async function createProject(project: Omit<Project, 'id' | 'created_at'>) {
-  const supabase = createClient()
-  
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+    
   const { data, error } = await supabase
     .from('projects')
     .insert(project)
@@ -82,8 +85,9 @@ export async function createProject(project: Omit<Project, 'id' | 'created_at'>)
 }
 
 export async function createIdea(idea: Omit<Idea, 'id' | 'created_at'>) {
-  const supabase = createClient()
-  
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+    
   const { data, error } = await supabase
     .from('ideas')
     .insert(idea)
@@ -98,8 +102,9 @@ export async function createIdea(idea: Omit<Idea, 'id' | 'created_at'>) {
 }
 
 export async function toggleProjectLike(projectId: string, userId: string) {
-  const supabase = createClient()
-  
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+    
   const { data: existingLike } = await supabase
     .from('project_likes')
     .select()
@@ -121,8 +126,9 @@ export async function toggleProjectLike(projectId: string, userId: string) {
 }
 
 export async function toggleIdeaLightbulb(ideaId: string, userId: string) {
-  const supabase = createClient()
-  
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+    
   const { data: existingLightbulb } = await supabase
     .from('idea_lightbulbs')
     .select()
