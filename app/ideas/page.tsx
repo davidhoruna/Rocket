@@ -56,7 +56,7 @@ export default function IdeasPage() {
       setIdeas(data.map(idea => ({
         ...idea,
         lightbulbs: idea.idea_lightbulbs?.length || 0,
-        isLightbulbed: idea.idea_lightbulbs?.some(bulb => bulb.user_id === session?.user?.id) || false
+        isLightbulbed: idea.idea_lightbulbs?.some((bulb: { user_id: string }) => bulb.user_id === session?.user?.id) || false
       })))
       setLoading(false)
     }
@@ -148,7 +148,6 @@ export default function IdeasPage() {
                     industry={idea.industry}
                     field={idea.field}
                     lightbulbs={idea.lightbulbs}
-                    isLightbulbed={idea.isLightbulbed}
                   />
                 ))}
               </div>
